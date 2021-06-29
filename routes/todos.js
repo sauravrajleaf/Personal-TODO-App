@@ -90,8 +90,24 @@ router.put("/:id", auth, async (req, res) => {
 // @route           DELETE       /api/todos
 // @desc            Deletes a TODO
 // @access          Private
-router.delete("/:id", (req, res) => {
-  res.send("Deletes  a TODO");
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    let todos = await Todos.findById(req.params.id);
+
+    if (!todos) return res.status(404).json({ msg: "Todos not found" });
+
+    //MAKE SURE USER OWNS TODOS
+    if (todos.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not Authorized" });
+    }
+
+    await Todos.findByIdAndRemove(req.params.id);
+
+    res.json({ msg: "Todo removed" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error.....");
+  }
 });
 
 module.exports = router;
