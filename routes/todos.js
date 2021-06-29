@@ -57,8 +57,34 @@ router.post(
 // @route           PUT        /api/todos
 // @desc            Updates a TODO
 // @access          Private
-router.put("/:id", (req, res) => {
-  res.send("Updates a TODO");
+router.put("/:id", auth, async (req, res) => {
+  const { todo_data } = req.body;
+
+  //BUILD TODO OBJECT
+  const todoFields = {};
+  if (todo_data) todoFields.todo_data = todo_data;
+
+  try {
+    let todos = await Todos.findById(req.params.id);
+
+    if (!todos) return res.status(404).json({ msg: "Todos not found" });
+
+    //MAKE SURE USER OWNS TODOS
+    if (todos.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: "Not Authorized" });
+    }
+
+    todos = await Todos.findByIdAndUpdate(
+      req.params.id,
+      { $set: todoFields },
+      { new: true }
+    );
+
+    res.json(todos);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error.....");
+  }
 });
 
 // @route           DELETE       /api/todos
