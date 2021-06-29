@@ -10,13 +10,6 @@ const { body, validationResult } = require("express-validator");
 const User = require("../models/User");
 const Todos = require("../models/Todos");
 
-// @route           POST        /api/todos
-// @desc            Post/Write a TODO
-// @access          Private
-router.post("/", (req, res) => {
-  res.send("Posts a TODO");
-});
-
 // @route           GET        /api/todos
 // @desc            Get all TODOs
 // @access          Private
@@ -30,6 +23,36 @@ router.get("/", auth, async (req, res) => {
     res.status(500).send("Server Error..");
   }
 });
+
+// @route           POST        /api/todos
+// @desc            Post/Write a TODO
+// @access          Private
+router.post(
+  "/",
+  [auth, [body("todo_data", "Todo is required").not().isEmpty()]],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { todo_data } = req.body;
+
+    try {
+      const newTodos = new Todos({
+        todo_data,
+        user: req.user.id,
+      });
+
+      const todo = await newTodos.save();
+
+      res.json(todo);
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Server Error.....");
+    }
+  }
+);
 
 // @route           PUT        /api/todos
 // @desc            Updates a TODO
