@@ -9,6 +9,9 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const config = require("config");
 
+//MIDDLEWARE
+const auth = require("../middleware/auth");
+
 // @route       POST        api/auth
 // @desc        Authenticates a user & gets token
 // @access      Public
@@ -63,11 +66,18 @@ router.post(
   }
 );
 
-// @route       GET        api/uauth
+// @route       GET        api/auth
 // @desc        Get data of a logged in user
 // @access      Private
-router.get("/", (req, res) => {
-  res.send("Get the data of a logged in user");
+router.get("/", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select("-password");
+
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error....");
+  }
 });
 
 module.exports = router;
