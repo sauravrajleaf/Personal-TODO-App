@@ -6,6 +6,9 @@ const app = express(); //INITIALIZING EXPRESS
 //CONNECTS DATABASE
 connectDB();
 
+//INIT MIDDLEWARE
+app.use(express.json({ extended: false }));
+
 app.get("/", (req, res) =>
   res.json({ msg: "Welcome to your Personal TODO App" })
 ); //Added an endpoint or route
