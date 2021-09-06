@@ -14,7 +14,7 @@ class Navbar extends Component {
 
   render() {
     return (
-      <div className="NavbarItems">
+      <nav className="NavbarItems">
         <h1 className="navbar-logo">
           Personal TODO App <i className="far fa-calendar-check "></i>
         </h1>
@@ -34,7 +34,7 @@ class Navbar extends Component {
             );
           })}
         </ul>
-      </div>
+      </nav>
     );
   }
 }
