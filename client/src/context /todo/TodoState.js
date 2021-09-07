@@ -47,7 +47,9 @@ const TodoState = (props) => {
   };
 
   //DELETE_TODO
-
+  const deleteTodo = (id) => {
+    dispatch({ type: DELETE_TODO, payload: id });
+  };
   //UPDATE_TODO
 
   //SET_CURRENT TODO
@@ -59,6 +61,7 @@ const TodoState = (props) => {
       value={{
         todos: state.todos,
         addTodo,
+        deleteTodo,
       }}
     >
       {props.children}

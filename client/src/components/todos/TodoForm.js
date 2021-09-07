@@ -15,7 +15,7 @@ const TodoForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(todo_data);
+    // console.log(todo_data);
     todoContext.addTodo(todo);
     setTodos({
       id: "",
