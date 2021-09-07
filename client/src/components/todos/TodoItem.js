@@ -6,19 +6,20 @@ import TodoContext from "../../context /todo/todoContext";
 const TodoItem = ({ todo }) => {
   const todoContext = useContext(TodoContext);
 
-  const { deleteTodo } = todoContext;
+  const { deleteTodo, setCurrent, clearCurrent } = todoContext;
 
   const { id, todo_data } = todo;
 
   const onDelete = () => {
     deleteTodo(id);
+    clearCurrent();
   };
 
   return (
     <div>
       <h3>{todo_data}</h3>
       <p>
-        <button>Edit</button>
+        <button onClick={() => setCurrent(todo)}>Edit</button>
         <button onClick={onDelete}>Delete</button>
       </p>
     </div>

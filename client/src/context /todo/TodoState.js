@@ -36,6 +36,7 @@ const TodoState = (props) => {
         todo_data: "Call maa",
       },
     ],
+    current: null,
   };
 
   const [state, dispatch] = useReducer(todoReducer, initialState);
@@ -53,6 +54,13 @@ const TodoState = (props) => {
   //UPDATE_TODO
 
   //SET_CURRENT TODO
+  const setCurrent = (contact) => {
+    dispatch({ type: SET_CURRENT, payload: contact });
+  };
+  //CLEAR_CURRENT TODO
+  const clearCurrent = () => {
+    dispatch({ type: CLEAR_CURRENT });
+  };
 
   //CLEAR_FILTER
 
@@ -60,8 +68,11 @@ const TodoState = (props) => {
     <TodoContext.Provider
       value={{
         todos: state.todos,
+        current: state.current,
         addTodo,
         deleteTodo,
+        setCurrent,
+        clearCurrent,
       }}
     >
       {props.children}
