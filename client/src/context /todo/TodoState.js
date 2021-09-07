@@ -52,6 +52,9 @@ const TodoState = (props) => {
     dispatch({ type: DELETE_TODO, payload: id });
   };
   //UPDATE_TODO
+  const updateTodo = (todo) => {
+    dispatch({ type: UPDATE_TODO, payload: todo });
+  };
 
   //SET_CURRENT TODO
   const setCurrent = (contact) => {
@@ -73,6 +76,7 @@ const TodoState = (props) => {
         deleteTodo,
         setCurrent,
         clearCurrent,
+        updateTodo,
       }}
     >
       {props.children}
