@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import uuid from "uuid";
+import { v4 as uuid } from "uuid";
 import TodoContext from "./todoContext";
 import todoReducer from "./todoReducer";
 import {
@@ -41,6 +41,10 @@ const TodoState = (props) => {
   const [state, dispatch] = useReducer(todoReducer, initialState);
 
   //ADD_TODO
+  const addTodo = (todo) => {
+    todo.id = uuid();
+    dispatch({ type: ADD_TODO, payload: todo });
+  };
 
   //DELETE_TODO
 
@@ -48,16 +52,13 @@ const TodoState = (props) => {
 
   //SET_CURRENT TODO
 
-  //CLEAR_CURRENT TODO
-
-  //FILER_TODO
-
   //CLEAR_FILTER
 
   return (
     <TodoContext.Provider
       value={{
         todos: state.todos,
+        addTodo,
       }}
     >
       {props.children}

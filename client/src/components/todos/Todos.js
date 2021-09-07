@@ -1,4 +1,4 @@
-import React, { useReducer, useContext, Fragment } from "react";
+import React, { useContext, Fragment } from "react";
 
 import TodoItem from "./TodoItem";
 
