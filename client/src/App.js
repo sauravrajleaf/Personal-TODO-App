@@ -9,22 +9,25 @@ import About from "./components/pages/About";
 
 //IMPORTING STATE
 import TodoState from "./context /todo/TodoState";
+import AuthState from "./context /auth/AuthState";
 
 const App = () => {
   return (
-    <TodoState>
-      <Router>
-        <Fragment>
-          <Navbar />
-          <div className="container">
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/about" component={About} />
-            </Switch>
-          </div>
-        </Fragment>
-      </Router>
-    </TodoState>
+    <AuthState>
+      <TodoState>
+        <Router>
+          <Fragment>
+            <Navbar />
+            <div className="container">
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/about" component={About} />
+              </Switch>
+            </div>
+          </Fragment>
+        </Router>
+      </TodoState>
+    </AuthState>
   );
 };
 
