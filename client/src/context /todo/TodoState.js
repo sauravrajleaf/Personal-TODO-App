@@ -26,11 +26,6 @@ const TodoState = (props) => {
         todo_data: "Watch suits",
       },
       {
-        id: 3,
-        user: "Ankit",
-        todo_data: "kam phookunga",
-      },
-      {
         id: 4,
         user: "Saurav",
         todo_data: "Call maa",

@@ -63,7 +63,7 @@ const TodoForm = () => {
       </button>
       {current && (
         <div>
-          <button onClick={clearAll}>Clear Current</button>
+          <button onClick={clearAll}>Cancel</button>
         </div>
       )}
     </form>
