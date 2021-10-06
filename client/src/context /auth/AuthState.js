@@ -14,6 +14,9 @@ import {
   CLEAR_ERRORS,
 } from "../types";
 
+import setAuthToken from "../../utils/setAuthToken";
+import { set } from "mongoose";
+
 const AuthState = (props) => {
   const initialState = {
     token: localStorage.getItem("token"),
@@ -26,7 +29,23 @@ const AuthState = (props) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   //LOAD USER - CHECKS WHICH USER IS LOGGED IN & HITS THAT AUTH ENDPOINT
-  const loadUser = () => console.log("User is loaded, loadUser function");
+  const loadUser = async () => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token);
+    }
+    try {
+      const res = await axios.get("/api/auth");
+
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: AUTH_ERROR,
+      });
+    }
+  };
 
   //REGISTER USER
   const register = async (formData) => {
@@ -43,6 +62,7 @@ const AuthState = (props) => {
         type: REGISTER_SUCCESS,
         payload: res.data,
       });
+      loadUser();
     } catch (error) {
       dispatch({
         type: REGISTER_FAIL,
@@ -52,7 +72,7 @@ const AuthState = (props) => {
   };
 
   //LOGIN USER - LOGS THE USER IN & GETS THE TOKEN
-  const loginUser = () => console.log("User is loggedin, loginUser function");
+  const loginUser = async () => {};
 
   //LOGOUT -  LOGS OUT & DESTROYS THE TOKEN & CLEARS EVERYTHING
   const logoutUser = () =>

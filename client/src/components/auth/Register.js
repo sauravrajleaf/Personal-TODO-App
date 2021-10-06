@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 import AuthContext from "../../context /auth/authContext";
 
-const Register = () => {
+const Register = (props) => {
   const authContext = useContext(AuthContext);
   const [user, setUser] = useState({
     name: "",
@@ -13,16 +13,20 @@ const Register = () => {
 
   const { name, email, password, password2 } = user;
 
-  const { register, error, clearErrors } = authContext;
+  const { register, error, clearErrors, isAuthenticated } = authContext;
 
   const onChange = (e) => setUser({ ...user, [e.target.name]: e.target.value });
 
   useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/");
+    }
     if (error === "User alread exists") {
       console.log("User alread exists");
       clearErrors();
     }
-  }, [error]);
+    //eslint-disable-next-line
+  }, [error, isAuthenticated, props.history]);
 
   const onSubmit = (e) => {
     e.preventDefault();

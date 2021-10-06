@@ -13,6 +13,13 @@ import Login from "./components/auth/Login";
 import TodoState from "./context /todo/TodoState";
 import AuthState from "./context /auth/AuthState";
 
+//IMPORTING TOKEN
+import setAuthToken from "./utils/setAuthToken";
+
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 const App = () => {
   return (
     <AuthState>
